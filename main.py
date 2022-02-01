@@ -24,9 +24,21 @@ def extend_key(plaintext, key):
     return(string_key)
 
 
+def decrypt(ciphertext, key):
+    for i in range(len(ciphertext)):
+        number_ciphertext = ord(ciphertext[i]) + ord('a')
+        print(number_ciphertext)
+    #     plaintext.append(number_ciphertext)
+
+    # string_plaintext = ''.join(map(str, plaintext))
+    # return(string_plaintext)
+
+
 plaintext = input("Enter your plaintext: ")
 key = input("Enter your key: ")
 
 extended_key = extend_key(plaintext, key)
 encrypted_text = encrypt(plaintext, extended_key)
-print("Chipertext:", encrypted_text)
+decrypted_text = decrypt(encrypted_text, key)
+print("Ciphertext:", encrypted_text)
+# print("Decrypted ciphertext:", decrypted_text)
