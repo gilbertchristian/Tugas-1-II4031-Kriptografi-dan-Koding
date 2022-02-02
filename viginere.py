@@ -69,7 +69,7 @@ if method == 'default':
     while len(plaintext) == 0:
         print("Output method cannot be empty!")
         plaintext = input("Enter your plaintext: ").lower()
-else: 
+else:
     with open('plaintext.txt') as text:
         plaintext = text.readlines()
     text.close()
@@ -88,9 +88,12 @@ while output != 'default' and output != 'grouped':
     output = input("Choose your output method (default/grouped): ")
 
 filtered_plaintext = filter(plaintext)
-extended_key = extend_key(filtered_plaintext, key)
+filtered_key = filter(key)
+extended_key = extend_key(filtered_plaintext, filtered_key)
+
 encrypted_text = encrypt(filtered_plaintext, extended_key)
 grouped_encrypted_text = group(encrypted_text)
+
 decrypted_text = decrypt(encrypted_text, extended_key)
 
 if output == 'default':
