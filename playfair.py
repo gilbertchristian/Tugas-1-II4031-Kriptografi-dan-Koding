@@ -1,9 +1,10 @@
-import math
-
-
 def create_key(key):
     text = ''.join(i for i in key if i.isalnum())
     text = ''.join(dict.fromkeys(key))
+
+    for letter in text:
+        if letter == 'j':
+            text = text.replace('j', '')
 
     key = list(set('abcdefghiklmnopqrstuvwxyz') - set(text))
     key.sort()
@@ -23,7 +24,7 @@ def create_matrix(key):
     for i in range(5):
         row_list = []
         for j in range(5):
-            row_list.append(full_key[5 * i + j])
+            row_list.append(key[5 * i + j])
         matrix.append(row_list)
         # print(row_list)
     return(matrix)
@@ -64,7 +65,7 @@ def bigram(plaintext):
 
 def encrypt(plaintext, key):
     ciphertext = []
-    plaintext = list(plaintext)
+    # plaintext = list(plaintext)
 
     for i in range(len(plaintext)):
         curr = search(plaintext[i][0], plaintext[i][1], key)
