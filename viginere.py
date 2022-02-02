@@ -14,8 +14,8 @@ def extend_key(plaintext, key):
         for i in range(len(key), len(plaintext)):
             key.append(key[i % key_length])
 
-    string_key = ''.join(key)
-    return(string_key)
+    key = ''.join(key)
+    return(key)
 
 
 def encrypt(plaintext, key):
@@ -27,8 +27,8 @@ def encrypt(plaintext, key):
         number_ciphertext = (number_plaintext + number_key) % 26
         ciphertext.append(chr(number_ciphertext + ord('a')))
 
-    string_ciphertext = ''.join(ciphertext)
-    return(string_ciphertext)
+    ciphertext = ''.join(ciphertext)
+    return(ciphertext)
 
 
 def decrypt(ciphertext, key):
@@ -39,8 +39,8 @@ def decrypt(ciphertext, key):
         number_key = ord(key[i]) - ord('a')
         number_plaintext = (number_ciphertext - number_key) % 26
         plaintext.append(chr(number_plaintext + ord('a')))
-    string_plaintext = ''.join(plaintext)
-    return(string_plaintext)
+    plaintext = ''.join(plaintext)
+    return(plaintext)
 
 
 plaintext = input("Enter your plaintext: ").lower()
