@@ -31,12 +31,45 @@ def decrypt(ciphertext, key):
     return(plaintext)
 
 
-plaintext = input("Enter your plaintext: ").lower()
-key = input("Enter your key: ").lower()
+def group(ciphertext):
+    output = []
+    ciphertext = list(ciphertext)
+
+    for i in range(len(ciphertext)):
+        if i % 5 == 0 and i > 0:
+            output.append(' ')
+        output.append(ciphertext[i])
+
+    output = ''.join(output)
+    return(output)
+
+
+plaintext = input("Enter your plaintext: ")
+while len(plaintext) == 0:
+    print("Output method cannot be empty!")
+    plaintext = input("Enter your plaintext: ")
+
+key = input("Enter your key: ")
+while len(key) == 0:
+    print("Output method cannot be empty!")
+    key = input("Enter your key: ")
+
+output = input("Choose your output method (default/grouped): ")
+while len(output) == 0:
+    print("Output method cannot be empty!")
+    output = input("Choose your output method (default/grouped): ")
+while output != 'default' and output != 'grouped':
+    print("Please choose default or grouped method!")
+    output = input("Choose your output method (default/grouped): ")
 
 extended_key = extend_key(plaintext, key)
 encrypted_text = encrypt(plaintext, extended_key)
 decrypted_text = decrypt(encrypted_text, extended_key)
+grouped_decrypted_text = group(decrypted_text)
 
 print("Ciphertext:", encrypted_text)
-print("Decrypted ciphertext:", decrypted_text)
+
+if output == 'default':
+    print("Decrypted ciphertext:", decrypted_text)
+else:
+    print("Decrypted ciphertext:", grouped_decrypted_text)
