@@ -46,7 +46,7 @@ def decrypt(ciphertext, key):
 plaintext = input("Enter your plaintext: ").lower()
 key = input("Enter your key: ").lower()
 
-filterd_plaintext = filter(plaintext)
+filtered_plaintext = filter(plaintext)
 extended_key = extend_key(filterd_plaintext, key)
 encrypted_text = encrypt(filterd_plaintext, extended_key)
 decrypted_text = decrypt(encrypted_text, extended_key)
