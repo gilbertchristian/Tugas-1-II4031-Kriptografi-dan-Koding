@@ -64,12 +64,12 @@ while output != 'default' and output != 'grouped':
 
 extended_key = extend_key(plaintext, key)
 encrypted_text = encrypt(plaintext, extended_key)
+grouped_encrypted_text = group(encrypted_text)
 decrypted_text = decrypt(encrypted_text, extended_key)
-grouped_decrypted_text = group(decrypted_text)
-
-print("Ciphertext:", encrypted_text)
 
 if output == 'default':
-    print("Decrypted ciphertext:", decrypted_text)
+    print("Ciphertext:", encrypted_text)
 else:
-    print("Decrypted ciphertext:", grouped_decrypted_text)
+    print("Ciphertext:", grouped_encrypted_text)
+
+print("Decrypted ciphertext:", decrypted_text)
