@@ -2,8 +2,8 @@ import math
 
 
 def create_key(key):
-    text = ''.join(dict.fromkeys(key))
     text = ''.join(i for i in key if i.isalnum())
+    text = ''.join(dict.fromkeys(key))
 
     key = list(set('abcdefghiklmnopqrstuvwxyz') - set(text))
     key.sort()
@@ -11,8 +11,8 @@ def create_key(key):
     return(text + key)
 
 
-def filter(plaintext):
-    remove_punctuation_space = ''.join(i for i in plaintext if i.isalnum())
+def filter(text):
+    remove_punctuation_space = ''.join(i for i in text if i.isalnum())
     remove_number = ''.join(
         i for i in remove_punctuation_space if not i.isdigit())
     return(remove_number)
@@ -25,7 +25,7 @@ def create_matrix(key):
         for j in range(5):
             row_list.append(full_key[5 * i + j])
         matrix.append(row_list)
-        print(row_list)
+        # print(row_list)
     return(matrix)
 
 
@@ -49,6 +49,10 @@ def arrange(plaintext, key):
     if len(plaintext) % 2 == 1:
         plaintext.append('x')
 
+    return(bigram(plaintext))
+
+
+def bigram(plaintext):
     bigram_plaintext = []
     for i in range(int(len(plaintext)/2)):
         bigram = []
@@ -88,6 +92,43 @@ def encrypt(plaintext, key):
     return(ciphertext)
 
 
+def decrypt(ciphertext, key):
+    plaintext = []
+    ciphertext = list(ciphertext)
+
+    ciphertext = bigram(ciphertext)
+
+    for i in range(len(ciphertext)):
+        curr = search(ciphertext[i][0], ciphertext[i][1], key)
+
+        x1 = curr[0][1]
+        y1 = curr[0][0]
+        x2 = curr[1][1]
+        y2 = curr[1][0]
+
+        if y1 == y2:
+            new_x1 = (x1-1) % 5
+            new_x2 = (x2-1) % 5
+            plaintext.append(get(y1, new_x1, key))
+            plaintext.append(get(y2, new_x2, key))
+        elif x1 == x2:
+            new_y1 = (y1-1) % 5
+            new_y2 = (y2-1) % 5
+            plaintext.append(get(new_y1, x1, key))
+            plaintext.append(get(new_y2, x2, key))
+        else:
+            plaintext.append(get(y1, x2, key))
+            plaintext.append(get(y2, x1, key))
+
+    plaintext = ''.join(plaintext)
+
+    for letter in plaintext:
+        if letter == 'x':
+            plaintext = plaintext.replace('x', '')
+
+    return(plaintext)
+
+
 def search(letter1, letter2, key):
     for i in range(5):
         for j in range(5):
@@ -109,9 +150,13 @@ plaintext = input("Enter your plaintext: ").lower()
 key = input("Enter your key: ").lower()
 
 filtered_plaintext = filter(plaintext)
-full_key = create_key(key)
+filtered_key = filter(key)
+
+full_key = create_key(filtered_key)
 matrix_key = create_matrix(full_key)
 arranged_plaintext = arrange(filtered_plaintext, matrix_key)
 encrypted_text = encrypt(arranged_plaintext, matrix_key)
+decrypted_text = decrypt(encrypted_text, matrix_key)
 
 print("Ciphertext:", encrypted_text)
+print("Decrypted ciphertext:", decrypted_text)
