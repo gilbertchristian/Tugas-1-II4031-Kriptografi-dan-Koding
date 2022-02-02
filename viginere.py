@@ -56,10 +56,23 @@ def group(ciphertext):
     return(output)
 
 
-plaintext = input("Enter your plaintext: ").lower()
-while len(plaintext) == 0:
-    print("Output method cannot be empty!")
+method = input("Choose your input method (default/textfile): ")
+while len(method) == 0:
+    print("Input method cannot be empty!")
+    method = input("Choose your input method (default/textfile): ")
+while method != 'default' and method != 'textfile':
+    print("Please choose default or grouped method!")
+    method = input("Choose your input method (default/textfile): ")
+
+if method == 'default':
     plaintext = input("Enter your plaintext: ").lower()
+    while len(plaintext) == 0:
+        print("Output method cannot be empty!")
+        plaintext = input("Enter your plaintext: ").lower()
+else: 
+    with open('plaintext.txt') as text:
+        plaintext = text.readlines()
+    text.close()
 
 key = input("Enter your key: ").lower()
 while len(key) == 0:
