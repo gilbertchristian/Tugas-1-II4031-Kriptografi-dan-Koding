@@ -11,7 +11,7 @@ def set_list(key, letter):
     pos = number(letter)
     for i in  range(pos-1):
         rotate(key)
-    print(key)
+    # print(key)
         
 
 def rotate(list):
@@ -84,18 +84,25 @@ def letter(number):
 def cycle(letter):
     cycle1 = search(letter, key[0]) #25  search(1,x)
     print('cycle1', cycle1)
+    print(slow_list)
     rotor1 = slow_rotor(cycle1) #25
     print('rotor1',rotor1)
+
     cycle2 = search(rotor1, key[1]) #22 
     print('cycle2',cycle2)
+    print(medium_list)
     rotor2 = medium_rotor(cycle2) #22
     print('rotor2',rotor2)
+
     cycle3 = search(rotor2, key[2]) #13
     print('cycle3',cycle3)
+    print(fast_list)
     rotor3 = fast_rotor(cycle3) #13 -> i
     print('rotor3',rotor3)
     return(rotor3)
-
+    
+    
+    
 # method = input("Choose your input method (default/textfile): ")
 # while len(method) == 0:
 #     print("Input method cannot be empty!")
@@ -106,8 +113,8 @@ def cycle(letter):
 
 plaintext = input("Enter your plaintext: ").lower()
 while len(plaintext) == 0:
-        print("Output method cannot be empty!")
-        plaintext = input("Enter your plaintext: ").lower()
+    print("Output method cannot be empty!")
+    plaintext = input("Enter your plaintext: ").lower()
 
 key = input("Enter your key: ").lower()
 while len(key) == 0:
