@@ -21,12 +21,35 @@ class Menu(QMainWindow):
 
     def Viginere(self):
         viginere = Viginere()
-        widget.addWigdet(viginere)
+        widget.addWidget(viginere)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
+    def Extended(self):
+        extended = Extended()
+
+    def Playfair(self):
+        playfair = Playfair()
+    
+    def Enigma(self):
+        enigma = Enigma()
+
 class Viginere(QMainWindow):
-        def __init__(self):
+    def __init__(self):
         super(Viginere, self).__init__()
         loadUi("cipher.ui", self)
-        plaintext = self.textEdit.text()
-        key = self.textEdit_2.text()
+        # plaintext = self.textEdit.text()
+        # key = self.textEdit_2.text()
+
+
+# main
+app = QApplication(sys.argv)
+welcome = Menu()
+widget = QtWidgets.QStackedWidget()
+widget.addWidget(welcome)
+widget.setFixedHeight(600)
+widget.setFixedWidth(800)
+widget.show()
+try:
+    sys.exit(app.exec_())
+except:
+    print("Exiting")
