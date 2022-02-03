@@ -7,6 +7,15 @@ medium_list = [20, 1, 6, 4, 15, 3, 14, 12, 23, 5, 16, 2,
 fast_list = [8, 18, 26, 17, 20, 22, 10, 3, 13, 11, 4,
             23, 5, 24, 9, 12, 25, 16, 19, 6, 15, 21, 2, 7, 1, 14]    
 
+def rotate(list):
+    init = list[0]
+    i=0
+    while i !=len(list)-1:
+        list[i] = list [i+1]
+        i+=1
+    list[i] = init
+    return(list)
+
 def slow_rotor(pos):
     for i in range(len(slow_list)):
         if pos == slow_list[i]:
@@ -100,5 +109,5 @@ for i in range(len(rotor1)):
     rotor4 = fast_rotor(cycle3) #13 -> i
     print(rotor4)
     listkey[2] = chr(ord(listkey[2]) + 1)
-    fast_list = majuin yang paling belakang gimana ya caranya
+    # fast_list = majuin yang paling belakang gimana ya caranya
     print('---')
