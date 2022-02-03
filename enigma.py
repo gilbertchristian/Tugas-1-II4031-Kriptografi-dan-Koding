@@ -61,10 +61,21 @@ plaintext = input("Enter your plaintext: ").lower()
 key1 = input("Enter your key: ").lower()
 rotor1 = letter(plaintext)
 cycle1 = search(rotor1, key1)
+print('cycle1', cycle1)
+
 key2 = input("Enter your key: ").lower()
 rotor2 = slow_rotor(cycle1)
+print('rotor1',rotor2)
+
 cycle2 = search (rotor2, key2)
+print('cycle2',cycle2)
+
 key3 = input("Enter your key: ").lower()
 rotor3 = medium_rotor(cycle2)
+print('rotor2',rotor3)
+
 cycle3 = search (rotor3, key3)
+print('cycle3',cycle3)
+
 rotor4 = fast_rotor(cycle3)
+print('rotor3',rotor4)

@@ -11,6 +11,7 @@ def set_list(key, letter):
     pos = number(letter)
     for i in  range(pos-1):
         rotate(key)
+    print(key)
         
 
 def rotate(list):
@@ -49,11 +50,23 @@ def number_plaintext(plaintext):
     print(num_letter)
     return (num_letter) #bb -> 1,1
 
-def search(pos, key):
-    list = list_key(key)
+def search(rotor, key):
+    cycle = []
+    alphabet = list('abcdefghijklmnopqrstuvwxyz')
+
+    for i in range (26):
+        if alphabet[i] == key:
+            num_key = i + 1
+            break
     for i in range(26):
-        if list[i] == pos:
-            return(pos+1)
+        index = (num_key + i) % 26
+        if index == 0:
+            index = 26
+        cycle.append(index)
+    num_rotor = cycle[rotor]
+    print(cycle)
+
+    return(num_rotor)
 
 def list_key(key):
     list = []
@@ -82,17 +95,17 @@ def letter(number):
 
 def cycle(letter):
     cycle1 = search(letter, key[0]) #25  search(1,x)
-    print(cycle1)
+    print('cycle1', cycle1)
     rotor1 = slow_rotor(cycle1) #25
-    print(rotor1)
+    print('rotor1',rotor1)
     cycle2 = search(rotor1, key[1]) #22 
-    print(cycle2)
+    print('cycle2',cycle2)
     rotor2 = medium_rotor(cycle2) #22
-    print(rotor2)
+    print('rotor2',rotor2)
     cycle3 = search(rotor2, key[2]) #13
-    print(cycle3)
+    print('cycle3',cycle3)
     rotor3 = fast_rotor(cycle3) #13 -> i
-    print(rotor3)
+    print('rotor3',rotor3)
     return(rotor3)
 
 # method = input("Choose your input method (default/textfile): ")
