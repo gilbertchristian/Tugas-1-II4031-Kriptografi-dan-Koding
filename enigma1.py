@@ -26,13 +26,13 @@ def rotate(list):
 def slow_rotor(pos):
     for i in range(len(slow_list)):
         if pos == slow_list[i]:
-            return(i)
+            return(i+1)
 
 
 def medium_rotor(pos):
     for i in range(len(medium_list)):
         if pos == medium_list[i]:
-            return(i)
+            return(i+1)
 
 
 def fast_rotor(pos):
@@ -50,23 +50,11 @@ def number_plaintext(plaintext):
     print(num_letter)
     return (num_letter) #bb -> 1,1
 
-def search(rotor, key):
-    cycle = []
-    alphabet = list('abcdefghijklmnopqrstuvwxyz')
-
-    for i in range (26):
-        if alphabet[i] == key:
-            num_key = i + 1
-            break
+def search(pos, key):
+    key = list_key(key)
     for i in range(26):
-        index = (num_key + i) % 26
-        if index == 0:
-            index = 26
-        cycle.append(index)
-    num_rotor = cycle[rotor]
-    print(cycle)
-
-    return(num_rotor)
+        if key[i] == pos:
+            return(pos+1)
 
 def list_key(key):
     list = []
@@ -88,10 +76,10 @@ def letter_output(rotor3):
     return (alphabet[num_letter])
 
 def number(letter):
-    return(ord(letter)-96)
+    return(ord(letter) -96)
 
 def letter(number):
-    return(chr(number+96))
+    return(chr(number + 96))
 
 def cycle(letter):
     cycle1 = search(letter, key[0]) #25  search(1,x)
@@ -139,24 +127,25 @@ set_list(medium_list,key[1])
 set_list(fast_list,key[2])
 
 for i in range(len(plaintext)): #b, b
+    print(key[0], key[1], key[2])
     ciphertext.append(cycle(plaintext[i]))
     #x, z ,a -> x, z, b
     if number(key[2]) < 26:
-        key[2] = letter(number(key[2]) + 1)
+        key[2] = letter((number(key[2]) + 1)%26)
         rotate(fast_list)
-    elif number(key[2]) == 26:
+    elif number(key[2]) == 26 and number(key[1])<26:
         key[2] = 'a'
-        key[1] = letter(number(key[1]) + 1)
+        key[1] = letter((number(key[1]) + 1)%26)
         rotate(fast_list)
         rotate(medium_list)
-    elif number(key[2] == 26) and number(key[1]==26):
+    elif number(key[2]) == 26 and number(key[1])==26:
         key[2] = 'a'
         key[1] = 'a'
-        key[0] = letter(number(key[0]) + 1)
+        key[0] = letter((number(key[0]) + 1)%26)
         rotate(fast_list)
         rotate(medium_list)
         rotate(slow_list)
-    # fast_list = majuin yang paling belakang gimana ya caranya
+
     print('---')
 
 ciphertext= ''.join(ciphertext)
