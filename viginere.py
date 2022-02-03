@@ -55,50 +55,53 @@ def group(ciphertext):
     output = ''.join(output)
     return(output)
 
-
-method = input("Choose your input method (default/textfile): ")
-while len(method) == 0:
-    print("Input method cannot be empty!")
+def main():
     method = input("Choose your input method (default/textfile): ")
-while method != 'default' and method != 'textfile':
-    print("Please choose default or grouped method!")
-    method = input("Choose your input method (default/textfile): ")
+    while len(method) == 0:
+        print("Input method cannot be empty!")
+        method = input("Choose your input method (default/textfile): ")
+    while method != 'default' and method != 'textfile':
+        print("Please choose default or grouped method!")
+        method = input("Choose your input method (default/textfile): ")
 
-if method == 'default':
-    plaintext = input("Enter your plaintext: ").lower()
-    while len(plaintext) == 0:
-        print("Output method cannot be empty!")
+    if method == 'default':
         plaintext = input("Enter your plaintext: ").lower()
-else:
-    with open('plaintext.txt') as text:
-        plaintext = text.readlines()
-    text.close()
+        while len(plaintext) == 0:
+            print("Output method cannot be empty!")
+            plaintext = input("Enter your plaintext: ").lower()
+    else:
+        with open('plaintext.txt') as text:
+            plaintext = text.readlines()
+        text.close()
 
-key = input("Enter your key: ").lower()
-while len(key) == 0:
-    print("Output method cannot be empty!")
     key = input("Enter your key: ").lower()
+    while len(key) == 0:
+        print("Output method cannot be empty!")
+        key = input("Enter your key: ").lower()
 
-output = input("Choose your output method (default/grouped): ")
-while len(output) == 0:
-    print("Output method cannot be empty!")
     output = input("Choose your output method (default/grouped): ")
-while output != 'default' and output != 'grouped':
-    print("Please choose default or grouped method!")
-    output = input("Choose your output method (default/grouped): ")
+    while len(output) == 0:
+        print("Output method cannot be empty!")
+        output = input("Choose your output method (default/grouped): ")
+    while output != 'default' and output != 'grouped':
+        print("Please choose default or grouped method!")
+        output = input("Choose your output method (default/grouped): ")
 
-filtered_plaintext = filter(plaintext)
-filtered_key = filter(key)
-extended_key = extend_key(filtered_plaintext, filtered_key)
+    filtered_plaintext = filter(plaintext)
+    filtered_key = filter(key)
+    extended_key = extend_key(filtered_plaintext, filtered_key)
 
-encrypted_text = encrypt(filtered_plaintext, extended_key)
-grouped_encrypted_text = group(encrypted_text)
+    encrypted_text = encrypt(filtered_plaintext, extended_key)
+    grouped_encrypted_text = group(encrypted_text)
 
-decrypted_text = decrypt(encrypted_text, extended_key)
+    decrypted_text = decrypt(encrypted_text, extended_key)
 
-if output == 'default':
-    print("Ciphertext:", encrypted_text)
-else:
-    print("Ciphertext:", grouped_encrypted_text)
+    if output == 'default':
+        print("Ciphertext:", encrypted_text)
+    else:
+        print("Ciphertext:", grouped_encrypted_text)
 
-print("Decrypted ciphertext:", decrypted_text)
+    print("Decrypted ciphertext:", decrypted_text)
+
+def a():
+    print('a')
