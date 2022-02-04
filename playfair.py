@@ -160,37 +160,50 @@ def group(ciphertext):
     return(output)
 
 
-plaintext = input("Enter your plaintext: ")
-while len(plaintext) == 0:
-    print("Output method cannot be empty!")
-    plaintext = input("Enter your plaintext: ")
+# plaintext = input("Enter your plaintext: ")
+# while len(plaintext) == 0:
+#     print("Output method cannot be empty!")
+#     plaintext = input("Enter your plaintext: ")
 
-key = input("Enter your key: ")
-while len(key) == 0:
-    print("Output method cannot be empty!")
-    key = input("Enter your key: ")
+# key = input("Enter your key: ")
+# while len(key) == 0:
+#     print("Output method cannot be empty!")
+#     key = input("Enter your key: ")
 
-output = input("Choose your output method (default/grouped): ")
-while len(output) == 0:
-    print("Output method cannot be empty!")
-    output = input("Choose your output method (default/grouped): ")
-while output != 'default' and output != 'grouped':
-    print("Please choose default or grouped method!")
-    output = input("Choose your output method (default/grouped): ")
+# output = input("Choose your output method (default/grouped): ")
+# while len(output) == 0:
+#     print("Output method cannot be empty!")
+#     output = input("Choose your output method (default/grouped): ")
+# while output != 'default' and output != 'grouped':
+#     print("Please choose default or grouped method!")
+#     output = input("Choose your output method (default/grouped): ")
 
-filtered_plaintext = filter(plaintext)
-filtered_key = filter(key)
+# filtered_plaintext = filter(plaintext)
+# filtered_key = filter(key)
 
-full_key = create_key(filtered_key)
-matrix_key = create_matrix(full_key)
-arranged_plaintext = arrange(filtered_plaintext, matrix_key)
-encrypted_text = encrypt(arranged_plaintext, matrix_key)
-grouped_encrypted_text = group(encrypted_text)
-decrypted_text = decrypt(encrypted_text, matrix_key)
+# full_key = create_key(filtered_key)
+# matrix_key = create_matrix(full_key)
+# arranged_plaintext = arrange(filtered_plaintext, matrix_key)
+# encrypted_text = encrypt(arranged_plaintext, matrix_key)
+# grouped_encrypted_text = group(encrypted_text)
+# decrypted_text = decrypt(encrypted_text, matrix_key)
 
-if output == 'default':
-    print("Ciphertext:", encrypted_text)
-else:
-    print("Ciphertext:", grouped_encrypted_text)
+# if output == 'default':
+#     print("Ciphertext:", encrypted_text)
+# else:
+#     print("Ciphertext:", grouped_encrypted_text)
 
-print("Decrypted ciphertext:", decrypted_text)
+# print("Decrypted ciphertext:", decrypted_text)
+
+
+def Playfair_Process(plaintext, key):
+    filtered_plaintext = filter(plaintext)
+    filtered_key = filter(key)
+
+    full_key = create_key(filtered_key)
+    matrix_key = create_matrix(full_key)
+    arranged_plaintext = arrange(filtered_plaintext, matrix_key)
+    encrypted_text = encrypt(arranged_plaintext, matrix_key)
+    grouped_encrypted_text = group(encrypted_text)
+    decrypted_text = decrypt(encrypted_text, matrix_key)
+    return(encrypted_text, grouped_encrypted_text, decrypted_text)
