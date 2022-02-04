@@ -8,6 +8,13 @@ fast_list = [8, 18, 26, 17, 20, 22, 10, 3, 13, 11, 4,
              23, 5, 24, 9, 12, 25, 16, 19, 6, 15, 21, 2, 7, 1, 14]
 
 
+def filter(plaintext):
+    remove_punctuation_space = ''.join(i for i in plaintext if i.isalnum())
+    remove_number = ''.join(
+        i for i in remove_punctuation_space if not i.isdigit())
+    return(remove_number)
+
+
 def set_list(key, letter):
     pos = number(letter)
     for i in range(pos-1):
@@ -175,12 +182,10 @@ def group(ciphertext):
 
 # ciphertext = ''.join(ciphertext)
 # print(ciphertext)
-
-
-def Enigma_Process(plaintext, key):
+def encrypt(plaintext, key):
     key = list(key)
 
-    plaintext = number_plaintext(plaintext)
+    plaintext = number_plaintext(filter(plaintext))
     ciphertext = []
 
     set_list(slow_list, key[0])
@@ -205,13 +210,19 @@ def Enigma_Process(plaintext, key):
             rotate(medium_list)
             rotate(slow_list)
 
-    encrypted_text = ''.join(ciphertext)
+    # encrypted_text = ''.join(ciphertext)
+    # grouped_encrypted_text = group(encrypted_text)
+    ciphertext = ''.join(ciphertext)
+    return(ciphertext)
+
+
+def Enigma_Process(plaintext, key):
+    encrypted_text = encrypt(plaintext, key)
     grouped_encrypted_text = group(encrypted_text)
     return(encrypted_text, grouped_encrypted_text)
 
 
-def Enigma_Export(plaintext, key):
-    cipher = Enigma_Process(plaintext, key)
+def Enigma_Export(plaintext, key, cipher):
     txt = open('ciphertext.txt', 'w')
-    cipher = txt.write(cipher[0])
+    cipher = txt.write(cipher)
     txt.close()

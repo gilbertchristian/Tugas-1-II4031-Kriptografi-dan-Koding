@@ -196,7 +196,8 @@ class Enigma(QMainWindow):
     def Export(self):
         plaintext = self.textEdit.toPlainText()
         key = self.textEdit_2.toPlainText()
-        return(Enigma_Export(plaintext, key))
+        cipher = self.textBrowser.toPlainText()
+        return(Enigma_Export(plaintext, key, cipher))
 
     def Default(self):
         plaintext = self.textEdit.toPlainText()
