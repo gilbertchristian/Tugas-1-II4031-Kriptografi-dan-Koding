@@ -9,6 +9,7 @@ from viginere import Viginere_Process, Viginere_Export
 from playfair import Playfair_Process, Playfair_Export
 from viginere_extended import Viginere_Extended_Process, Viginere_Extended_Export
 from enigma import Enigma_Process, Enigma_Export
+from otp import OneTimePad_key, OneTimePad_Process, OneTimePad_Export
 
 import sqlite3
 import os
@@ -20,10 +21,12 @@ class Menu(QMainWindow):
     def __init__(self):
         super(Menu, self).__init__()
         loadUi("home.ui", self)
+        self.label_6.setText("Welcome Back!")
         self.pushButton_5.clicked.connect(self.Viginere)
         self.pushButton_6.clicked.connect(self.Extended)
         self.pushButton_7.clicked.connect(self.Playfair)
         self.pushButton_8.clicked.connect(self.Enigma)
+        self.pushButton_9.clicked.connect(self.OneTimePad)
 
     def Viginere(self):
         viginere = Viginere()
@@ -43,6 +46,11 @@ class Menu(QMainWindow):
     def Enigma(self):
         enigma = Enigma()
         widget.addWidget(enigma)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
+
+    def OneTimePad(self):
+        onetimepad = OneTimePad()
+        widget.addWidget(onetimepad)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
 
@@ -76,17 +84,22 @@ class Viginere(QMainWindow):
     def Default(self):
         plaintext = self.textEdit.toPlainText()
         key = self.textEdit_2.toPlainText()
-        if len(plaintext) != 0 and len(key) != 0:
-            res = Viginere_Process(plaintext, key)
+        res = Viginere_Process(plaintext, key)
 
-            self.textBrowser.setText(res[0])
-            self.textBrowser_2.setText(res[2])
-        else:
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Critical)
-            msg.setText("Error")
-            msg.setInformativeText('Masukkan tiga huruf untuk kunci!')
-            msg.exec_()
+        self.textBrowser.setText(res[0])
+        self.textBrowser_2.setText(res[2])
+
+        # if len(plaintext) != 0 and len(key) != 0:
+        #     res = Viginere_Process(plaintext, key)
+
+        #     self.textBrowser.setText(res[0])
+        #     self.textBrowser_2.setText(res[2])
+        # else:
+        #     msg = QMessageBox()
+        #     msg.setIcon(QMessageBox.Critical)
+        #     msg.setText("Error")
+        #     msg.setInformativeText('Masukkan tiga huruf untuk kunci!')
+        #     msg.exec_()
 
     def Grouped(self):
         plaintext = self.textEdit.toPlainText()
@@ -217,6 +230,51 @@ class Enigma(QMainWindow):
         plaintext = self.textEdit.toPlainText()
         key = self.textEdit_2.toPlainText()
         res = Enigma_Process(plaintext, key)
+        self.textBrowser.setText(res[1])
+        self.textBrowser_2.setText(res[2])
+
+
+class OneTimePad(QMainWindow):
+    def __init__(self):
+        super(OneTimePad, self).__init__()
+        loadUi("cipher.ui", self)
+        self.pushButton_5.clicked.connect(self.Menu)
+        self.pushButton.clicked.connect(self.Default)
+        self.pushButton_2.clicked.connect(self.Grouped)
+        self.pushButton_3.clicked.connect(self.Import)
+        self.pushButton_4.clicked.connect(self.Export)
+
+    def Menu(self):
+        menu = Menu()
+        widget.addWidget(menu)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
+
+    def Import(self):
+        with open('plaintext.txt', 'r') as file:
+            lines = file.read().rstrip()
+        self.textEdit.setPlainText(str(lines))
+
+    def Export(self):
+        plaintext = self.textEdit.toPlainText()
+        key = OneTimePad_key(plaintext)
+        # key = self.textEdit_2.toPlainText()
+        return(OneTimePad_Export(plaintext, key))
+
+    def Default(self):
+        plaintext = self.textEdit.toPlainText()
+        # key = self.textEdit_2.toPlainText()
+        key = OneTimePad_key(plaintext)
+        res = OneTimePad_Process(plaintext, key)
+        self.textEdit_2.setPlainText(res[3])
+        self.textBrowser.setText(res[0])
+        self.textBrowser_2.setText(res[2])
+
+    def Grouped(self):
+        plaintext = self.textEdit.toPlainText()
+        # key = self.textEdit_2.toPlainText()
+        key = OneTimePad_key(plaintext)
+        res = OneTimePad_Process(plaintext, key)
+        self.textEdit_2.setPlainText(res[3])
         self.textBrowser.setText(res[1])
         self.textBrowser_2.setText(res[2])
 
