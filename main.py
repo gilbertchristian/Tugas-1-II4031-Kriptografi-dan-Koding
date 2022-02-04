@@ -8,7 +8,7 @@ from PyQt5.QtGui import QPixmap
 from viginere import Viginere_Process
 from playfair import Playfair_Process
 from viginere_extended import Viginere_Extended_Process
-from enigma import Enigma
+from enigma import Enigma_Process
 
 import sqlite3
 import os
