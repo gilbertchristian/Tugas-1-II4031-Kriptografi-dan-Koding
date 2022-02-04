@@ -18,15 +18,25 @@ def filter(plaintext):
 def set_list(key, letter):
     pos = number(letter)
     for i in range(pos-1):
-        rotate(key)
+        rotate_forward(key)
     # print(key)
 
 
-def rotate(list):
+def rotate_forward(list):
     init = list[0]
     i = 0
     while i != len(list)-1:
         list[i] = list[i+1]
+        i += 1
+    list[i] = init
+    return(list)
+
+
+def rotate_backward(list):
+    init = list[len(list)-1]
+    i = 0
+    while i != len(list)-1:
+        list[i+1] = list[i]
         i += 1
     list[i] = init
     return(list)
@@ -47,8 +57,7 @@ def medium_rotor(pos):
 def fast_rotor(pos):
     for i in range(len(fast_list)):
         if pos == fast_list[i]:
-            letter_convert = chr(i + 97)
-            return(letter_convert)
+            return(i)
 
 
 def number_plaintext(plaintext):
@@ -74,7 +83,7 @@ def list_key(key):
         if index == 0:
             index = 26
         list.append(index)
-    # print(list)
+    print(list)
     return(list)
 
 
@@ -94,8 +103,8 @@ def letter(number):
     return(chr(number + 96))
 
 
-def cycle(letter, key):
-    cycle1 = search(letter, key[0])  # 25  search(1,x)
+def cycle_right(let, key):
+    cycle1 = search(let, key[0])  # 25  search(1,x)
     # print('cycle1', cycle1)
     # print(slow_list)
     rotor1 = slow_rotor(cycle1)  # 25
@@ -112,7 +121,30 @@ def cycle(letter, key):
     # print(fast_list)
     rotor3 = fast_rotor(cycle3)  # 13 -> i
     # print('rotor3', rotor3)
-    return(rotor3)
+    return(letter(rotor3+1))
+
+
+def cycle_left(let, key):
+
+    cycle1 = search(let, key[2])
+    print('cycle1', cycle1)
+    print(fast_list)
+    rotor1 = fast_rotor(cycle1)
+    print('rotor1', rotor1)
+
+    cycle2 = search(rotor1, key[1])
+    print('cycle2', cycle2)
+    print(medium_list)
+    rotor2 = medium_rotor(cycle2)
+    print('rotor2', rotor2)
+
+    cycle3 = search(rotor2, key[0])
+    print('cycle3', cycle3)
+    print(slow_list)
+    rotor3 = slow_rotor(cycle3)
+    print('rotor3', rotor3)
+
+    return(letter(rotor3+1))
 
 
 def group(ciphertext):
@@ -183,32 +215,24 @@ def group(ciphertext):
 # ciphertext = ''.join(ciphertext)
 # print(ciphertext)
 def encrypt(plaintext, key):
-    key = list(key)
-
-    plaintext = number_plaintext(filter(plaintext))
     ciphertext = []
-
-    set_list(slow_list, key[0])
-    set_list(medium_list, key[1])
-    set_list(fast_list, key[2])
-
     for i in range(len(plaintext)):
-        ciphertext.append(cycle(plaintext[i], key))
-        if number(key[2]) < 26:
+        ciphertext.append(cycle_right(plaintext[i], key))
+        if number(key[2]) < 26:  # aaa
             key[2] = letter((number(key[2]) + 1) % 26)
-            rotate(fast_list)
-        elif number(key[2]) == 26 and number(key[1]) < 26:
+            rotate_forward(fast_list)
+        elif number(key[2]) == 26 and number(key[1]) < 26:  # aaz
             key[2] = 'a'
             key[1] = letter((number(key[1]) + 1) % 26)
-            rotate(fast_list)
-            rotate(medium_list)
-        elif number(key[2]) == 26 and number(key[1]) == 26:
+            rotate_forward(fast_list)
+            rotate_forward(medium_list)
+        elif number(key[2]) == 26 and number(key[1]) == 26:  # azz
             key[2] = 'a'
             key[1] = 'a'
             key[0] = letter((number(key[0]) + 1) % 26)
-            rotate(fast_list)
-            rotate(medium_list)
-            rotate(slow_list)
+            rotate_forward(fast_list)
+            rotate_forward(medium_list)
+            rotate_forward(slow_list)
 
     # encrypted_text = ''.join(ciphertext)
     # grouped_encrypted_text = group(encrypted_text)
@@ -216,10 +240,48 @@ def encrypt(plaintext, key):
     return(ciphertext)
 
 
+def decrypt(ciphertext, key):
+    plaintext = []
+    for i in range(len(ciphertext)):
+        ciphertext.append(cycle_left(ciphertext[i], key))
+        if number(key[2]) > 1:  # zzz
+            key[2] = letter((number(key[2]) - 1) % 26)
+            rotate_backward(fast_list)
+        elif number(key[2]) == 1 and number(key[1]) > 1:  # zza
+            key[2] = 'z'
+            key[1] = letter((number(key[1]) - 1) % 26)
+            rotate_backward(fast_list)
+            rotate_backward(medium_list)
+        elif number(key[2]) == 1 and number(key[1]) == 1:  # zaa
+            key[2] = 'z'
+            key[1] = 'z'
+            key[0] = letter((number(key[0]) - 1) % 26)
+            rotate_backward(fast_list)
+            rotate_backward(medium_list)
+            rotate_backward(slow_list)
+
+    # encrypted_text = ''.join(ciphertext)
+    # grouped_encrypted_text = group(encrypted_text)
+    plaintext = ''.join(plaintext)
+    return(plaintext)
+
+
 def Enigma_Process(plaintext, key):
+    key = list(key)
+    plaintext = number_plaintext(filter(plaintext))
+
+    set_list(slow_list, key[0])
+    set_list(medium_list, key[1])
+    set_list(fast_list, key[2])
     encrypted_text = encrypt(plaintext, key)
     grouped_encrypted_text = group(encrypted_text)
-    return(encrypted_text, grouped_encrypted_text)
+    print('------------------')
+    rotate_backward(fast_list)
+    rotate_backward(medium_list)
+    rotate_backward(slow_list)
+    # decrypted_text = decrypt(plaintext, key)
+    decrypted_text = ""
+    return(encrypted_text, grouped_encrypted_text, decrypted_text)
 
 
 def Enigma_Export(plaintext, key, cipher):

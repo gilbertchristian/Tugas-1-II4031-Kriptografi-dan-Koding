@@ -76,10 +76,17 @@ class Viginere(QMainWindow):
     def Default(self):
         plaintext = self.textEdit.toPlainText()
         key = self.textEdit_2.toPlainText()
-        res = Viginere_Process(plaintext, key)
+        if len(plaintext) != 0 and len(key) != 0:
+            res = Viginere_Process(plaintext, key)
 
-        self.textBrowser.setText(res[0])
-        self.textBrowser_2.setText(res[2])
+            self.textBrowser.setText(res[0])
+            self.textBrowser_2.setText(res[2])
+        else:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("Error")
+            msg.setInformativeText('Masukkan tiga huruf untuk kunci!')
+            msg.exec_()
 
     def Grouped(self):
         plaintext = self.textEdit.toPlainText()
@@ -204,14 +211,14 @@ class Enigma(QMainWindow):
         key = self.textEdit_2.toPlainText()
         res = Enigma_Process(plaintext, key)
         self.textBrowser.setText(res[0])
-        # self.textBrowser_2.setText(res[2])
+        self.textBrowser_2.setText(res[2])
 
     def Grouped(self):
         plaintext = self.textEdit.toPlainText()
         key = self.textEdit_2.toPlainText()
         res = Enigma_Process(plaintext, key)
         self.textBrowser.setText(res[1])
-        # self.textBrowser_2.setText(res[2])
+        self.textBrowser_2.setText(res[2])
 
 
 # main
