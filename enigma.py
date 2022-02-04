@@ -208,3 +208,10 @@ def Enigma_Process(plaintext, key):
     encrypted_text = ''.join(ciphertext)
     grouped_encrypted_text = group(encrypted_text)
     return(encrypted_text, grouped_encrypted_text)
+
+
+def Enigma_Export(plaintext, key):
+    cipher = Enigma_Process(plaintext, key)
+    txt = open('ciphertext.txt', 'w')
+    cipher = txt.write(cipher[0])
+    txt.close()

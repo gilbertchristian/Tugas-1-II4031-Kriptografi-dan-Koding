@@ -112,3 +112,10 @@ def Viginere_Process(plaintext, key):
     grouped_encrypted_text = group(encrypted_text)
     decrypted_text = decrypt(encrypted_text, extended_key)
     return(encrypted_text, grouped_encrypted_text, decrypted_text)
+
+
+def Viginere_Export(plaintext, key):
+    cipher = Viginere_Process(plaintext, key)
+    txt = open('ciphertext.txt', 'w')
+    cipher = txt.write(cipher[0])
+    txt.close()
