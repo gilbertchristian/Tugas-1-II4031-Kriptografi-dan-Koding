@@ -50,7 +50,6 @@ def number_plaintext(plaintext):
     for letter in plaintext:
         num_letter.append(number(letter)-1)
 
-    print(num_letter)
     return (num_letter)  # bb -> 1,1
 
 
@@ -68,7 +67,7 @@ def list_key(key):
         if index == 0:
             index = 26
         list.append(index)
-    print(list)
+    # print(list)
     return(list)
 
 
@@ -88,24 +87,24 @@ def letter(number):
     return(chr(number + 96))
 
 
-def cycle(letter):
+def cycle(letter, key):
     cycle1 = search(letter, key[0])  # 25  search(1,x)
-    print('cycle1', cycle1)
-    print(slow_list)
+    # print('cycle1', cycle1)
+    # print(slow_list)
     rotor1 = slow_rotor(cycle1)  # 25
-    print('rotor1', rotor1)
+    # print('rotor1', rotor1)
 
     cycle2 = search(rotor1, key[1])  # 22
-    print('cycle2', cycle2)
-    print(medium_list)
+    # print('cycle2', cycle2)
+    # print(medium_list)
     rotor2 = medium_rotor(cycle2)  # 22
-    print('rotor2', rotor2)
+    # print('rotor2', rotor2)
 
     cycle3 = search(rotor2, key[2])  # 13
-    print('cycle3', cycle3)
-    print(fast_list)
+    # print('cycle3', cycle3)
+    # print(fast_list)
     rotor3 = fast_rotor(cycle3)  # 13 -> i
-    print('rotor3', rotor3)
+    # print('rotor3', rotor3)
     return(rotor3)
 
 
@@ -128,6 +127,8 @@ def group(ciphertext):
 # while method != 'default' and method != 'textfile':
 #     print("Please choose default or grouped method!")
 #     method = input("Choose your input method (default/textfile): ")
+
+
 # plaintext = input("Enter your plaintext: ").lower()
 # while len(plaintext) == 0:
 #     print("Output method cannot be empty!")
@@ -179,17 +180,15 @@ def group(ciphertext):
 def Enigma_Process(plaintext, key):
     key = list(key)
 
-    plaintext = number_plaintext(plaintext)  # 1
+    plaintext = number_plaintext(plaintext)
     ciphertext = []
 
     set_list(slow_list, key[0])
     set_list(medium_list, key[1])
     set_list(fast_list, key[2])
 
-    for i in range(len(plaintext)):  # b, b
-        print(key[0], key[1], key[2])
-        ciphertext.append(cycle(plaintext[i]))
-        # x, z ,a -> x, z, b
+    for i in range(len(plaintext)):
+        ciphertext.append(cycle(plaintext[i], key))
         if number(key[2]) < 26:
             key[2] = letter((number(key[2]) + 1) % 26)
             rotate(fast_list)
@@ -205,8 +204,6 @@ def Enigma_Process(plaintext, key):
             rotate(fast_list)
             rotate(medium_list)
             rotate(slow_list)
-
-        print('---')
 
     encrypted_text = ''.join(ciphertext)
     grouped_encrypted_text = group(encrypted_text)

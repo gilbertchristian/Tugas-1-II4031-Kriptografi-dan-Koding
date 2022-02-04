@@ -155,15 +155,14 @@ class Enigma(QMainWindow):
     def Default(self):
         plaintext = self.textEdit.toPlainText()
         key = self.textEdit_2.toPlainText()
-        res = Playfair_Process(plaintext, key)
-
+        res = Enigma_Process(plaintext, key)
         self.textBrowser.setText(res[0])
         # self.textBrowser_2.setText(res[2])
 
     def Grouped(self):
         plaintext = self.textEdit.toPlainText()
         key = self.textEdit_2.toPlainText()
-        res = Playfair_Process(plaintext, key)
+        res = Enigma_Process(plaintext, key)
         self.textBrowser.setText(res[1])
         # self.textBrowser_2.setText(res[2])
 
